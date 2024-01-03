@@ -8,6 +8,9 @@ function Show(props) {
             <p>
                 {props.log.entry}
             </p>
+            <p>
+                {props.log.shipIsBroken? 'The ship is broken.' : 'The ship is not broken.'}
+            </p>
         </div>
     )
 }

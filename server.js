@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express') // imported express from node modules
 const mongoose = require('mongoose')
 const jsxEngine = require('jsx-view-engine')
-// const methodOverride = require('method-override')
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000
 const Log = require('./models/log')
 
@@ -12,7 +12,7 @@ const app = express()
 app.use(express.urlencoded({ extended:true }))
 
 // Query to override a method
-// app.use(methodOverride('_method'))
+app.use(methodOverride('_method'))
 
 // Set up the view engine
 app.set('view engine', 'jsx')
@@ -41,7 +41,16 @@ app.get('/logs/new', (req, res) => {
 })
 
 // Destroy
-
+app.delete('/logs/:id', async (req, res) => {
+    try {
+        await Log.findOneAndDelete({ '_id': req.params.id })
+            .then(() => {
+                res.redirect('/logs')
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+})
 
 // Update
 
