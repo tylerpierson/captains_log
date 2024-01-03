@@ -53,7 +53,22 @@ app.delete('/logs/:id', async (req, res) => {
 })
 
 // Update
-
+app.put('/logs/:id', async (req, res) => {
+    if(req.body.shipIsBroken === 'on'){
+        req.body.shipIsBroken = true
+    }else{
+        req.body.shipIsBroken = false
+    }
+    try {
+        await Log.findOneAndUpdate({ '_id': req.params.id }, 
+            req.body, { new: true })
+            .then(() => {
+                res.redirect(`/logs/${req.params.id}`)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+})
 
 // Create
 app.post('/logs', async (req, res) => {
@@ -72,7 +87,16 @@ app.post('/logs', async (req, res) => {
 })
 
 // Edit
-
+app.get('/logs/:id/edit', async (req, res) => {
+    try {
+        const foundLog = await Log.findOne({'_id': req.params.id})
+        res.render('logs/Edit', {
+            log: foundLog
+        })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+})
 
 // Show
 app.get('/logs/:id', async (req, res) => {

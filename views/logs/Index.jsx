@@ -14,6 +14,9 @@ function Index (props) {
                                 <form action={`/logs/${log._id}?_method=DELETE`} method="POST">
                                     <input type="submit" value={`Delete this Entry`} />
                                 </form>
+                                <div>
+                                    <a href={`/logs/${log._id}/edit`}><button>{`Edit this Entry`}</button></a>
+                                </div>
                             </li>
                         )
                     })

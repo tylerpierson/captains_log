@@ -8,7 +8,7 @@ function New(props) {
             <form action="/logs" method="POST">
                 Title: <input type="text" name="title"/><br/>
                 Entry: <input type="textarea" name="entry"/><br/>
-                Ship is Broken: <input type="checkbox" name="shipIsBroken"/><br/>
+                Ship is Broken: <input type="checkbox" name="shipIsBroken" defaultChecked/><br/>
                 <input type="submit" value="Create Log"/>
             </form>
         </div>
