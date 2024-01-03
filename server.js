@@ -24,7 +24,16 @@ mongoose.connection.once('open', () => {
 })
 
 // Index
-
+app.get('/logs', async (req, res) => {
+    try {
+        const foundLogs = await Log.find({})
+        res.render('logs/Index', {
+            logs: foundLogs
+        })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+})
 
 // New
 app.get('/logs/new', (req, res) => {
