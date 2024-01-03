@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const jsxEngine = require('jsx-view-engine')
 // const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000
+const Log = require('./models/log')
 
 const app = express()
 
@@ -44,9 +45,9 @@ app.post('/logs', async (req, res) => {
         req.body.shipIsBroken = false
     }
     try{
-        // const createdLog = await Log.create(req.body)
-        res.send('received')
-        // res.redirect(`/logs/${createdLog._id}`)
+        const createdLog = await Log.create(req.body)
+        // res.send('received')
+        res.redirect(`/logs/${createdLog._id}`)
     }catch(error){
         res.status(400).send({message: error.message})
     }
@@ -56,7 +57,16 @@ app.post('/logs', async (req, res) => {
 
 
 // Show
-
+app.get('/logs/:id', async (req, res) => {
+    try {
+        const foundLog = await Log.findOne({ _id: req.params.id })
+        res.render('logs/Show', {
+            log: foundLog
+        })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+})
 
 // Connect App to open PORT or 3000 as stated above in PORT variable
 app.listen(PORT, () => {
