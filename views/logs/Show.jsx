@@ -1,12 +1,13 @@
 const React = require('react')
 const Layout = require('../Layouts/Layout')
+const Navbar = require('../Layouts/Navbar')
 
 function Show(props) {
     return (
         <Layout>
+            <Navbar></Navbar>
             <div>
                 <h1>{props.log.title}</h1>
-                <a href="/logs">Go back to Index Page</a>
                 <p>
                     {props.log.entry}
                 </p>
