@@ -1,9 +1,11 @@
 const Log = require('../models/log')
+const express = require('express')
+const router = express.Router()
 
 // Export modules
-module.exports = function(app){
+
     // Index
-    app.get('/logs', async (req, res) => {
+    router.get('/', async (req, res) => {
         try {
             const foundLogs = await Log.find({})
             res.render('logs/Index', {
@@ -15,12 +17,12 @@ module.exports = function(app){
     })
 
     // New
-    app.get('/logs/new', (req, res) => {
+    router.get('/new', (req, res) => {
         res.render('logs/New')
     })
 
     // Destroy
-    app.delete('/logs/:id', async (req, res) => {
+    router.delete('/:id', async (req, res) => {
         try {
             await Log.findOneAndDelete({ '_id': req.params.id })
                 .then(() => {
@@ -32,7 +34,7 @@ module.exports = function(app){
     })
 
     // Update
-    app.put('/logs/:id', async (req, res) => {
+    router.put('/:id', async (req, res) => {
         if(req.body.shipIsBroken === 'on'){
             req.body.shipIsBroken = true
         }else{
@@ -50,7 +52,7 @@ module.exports = function(app){
     })
 
     // Create
-    app.post('/logs', async (req, res) => {
+    router.post('/', async (req, res) => {
         if(req.body.shipIsBroken === 'on'){
             req.body.shipIsBroken = true
         }else{
@@ -66,7 +68,7 @@ module.exports = function(app){
     })
 
     // Edit
-    app.get('/logs/:id/edit', async (req, res) => {
+    router.get('/:id/edit', async (req, res) => {
         try {
             const foundLog = await Log.findOne({'_id': req.params.id})
             res.render('logs/Edit', {
@@ -78,7 +80,7 @@ module.exports = function(app){
     })
 
     // Show
-    app.get('/logs/:id', async (req, res) => {
+    router.get('/:id', async (req, res) => {
         try {
             const foundLog = await Log.findOne({ _id: req.params.id })
             res.render('logs/Show', {
@@ -89,4 +91,4 @@ module.exports = function(app){
         }
     })
 
-}
+module.exports = router

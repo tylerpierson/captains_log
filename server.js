@@ -7,11 +7,12 @@ const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000
 const Log = require('./models/log')
 const app = express()
+const logRoutes = require('./controllers/logs')
 
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended:true }))
-
-// Query to override a method
 app.use(methodOverride('_method'))
+app.use("/logs", logRoutes)
 
 // Set up the view engine
 app.set('view engine', 'jsx')
@@ -21,9 +22,6 @@ mongoose.connect(process.env.MONGO_URI)
 mongoose.connection.once('open', () => {
     console.log('connected to mongodb')
 })
-
-// Require routes from controllers directory
-require('./controllers/logs')(app)
 
 // Connect App to open PORT or 3000 as stated above in PORT variable
 app.listen(PORT, () => {
